@@ -3,7 +3,8 @@ import {
   Shield, Globe, Lock, Server, ArrowRight, CheckCircle, 
   Network, Menu, X, FileJson, 
   FileCheck, Building2, Users, Radio, Activity, Key, Terminal, Code, Cpu,
-  Hash, ScanLine, FileKey, Zap, AlertTriangle, Ban, Fingerprint, Map, Navigation, Filter, FileText, Brain, Sparkles, Gavel, Route, Radar, GraduationCap, BookOpen, Lightbulb, Bot, TrendingUp
+  Hash, ScanLine, FileKey, Zap, AlertTriangle, Ban, Fingerprint, Map, Navigation, Filter, FileText, Brain, Sparkles, Gavel, Route, Radar, GraduationCap, BookOpen, Lightbulb, Bot, TrendingUp,
+  Mail, Phone, MapPin, Linkedin, Twitter, Github, Send, Calendar, MessageSquare
 } from 'lucide-react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
@@ -115,9 +116,10 @@ const Navbar = () => {
           <span className="text-white font-bold text-lg tracking-tight">SYNAPIRON</span>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-          {['Network', 'Policy', 'Protocol', 'Smart', 'Team'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">{item}</a>
+          {['Network', 'Policy', 'Protocol', 'Smart', 'Use Cases', 'Team'].map((item) => (
+            <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, '')}`} className="hover:text-white transition-colors">{item}</a>
           ))}
+          <a href="#contact-form" className="hover:text-white transition-colors">Contact Us</a>
         </div>
         <div className="flex items-center gap-4">
           <button className="hidden md:block text-xs font-mono text-emerald-500 border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-colors">DOCS_v0.2</button>
@@ -1405,18 +1407,366 @@ const Partners = () => (
   </section>
 );
 
-const Footer = () => (
-  <footer className="py-12 border-t border-white/10 bg-[#050505] text-sm font-mono relative z-10">
-    <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-      <div className="flex items-center gap-2">
-        <div className="w-5 h-5 bg-white text-black rounded flex items-center justify-center">
-          <div className="w-2 h-2 bg-black rotate-45"></div>
+// --- Final CTA Section ---
+const FinalCTA = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Create mailto link with form data
+    const subject = encodeURIComponent('Demo Request from Synapiron Website');
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n` +
+      `Company: ${formData.company}\n\n` +
+      `Message:\n${formData.message}`
+    );
+    const mailtoLink = `mailto:dongdongdoge@gmail.com?subject=${subject}&body=${body}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
+    
+    // Reset form after a short delay
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setFormData({ name: '', email: '', company: '', message: '' });
+    }, 500);
+  };
+
+  return (
+    <section className="py-24 border-t border-white/5 bg-gradient-to-b from-[#020202] to-[#050505] relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-emerald-500/5 blur-[150px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-500/3 blur-[120px] rounded-full pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left: CTA Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-mono text-emerald-400 border border-emerald-500/30 bg-emerald-500/5 rounded-full">
+              <MessageSquare size={12} /> GET STARTED
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              Ready to Build <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                Sovereign Data Corridors?
+              </span>
+            </h2>
+            <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+              Join leading enterprises and research institutions building the future of cross-border data infrastructure. 
+              Schedule a demo or contact our team to learn more.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a 
+                href="#contact-form" 
+                className="px-6 py-3 bg-white text-black rounded-lg font-bold flex items-center gap-2 hover:bg-slate-200 transition-all"
+              >
+                <Calendar size={16} /> Schedule Demo
+              </a>
+              <a 
+                href="mailto:dongdongdoge@gmail.com?subject=Contact Sales - Synapiron" 
+                className="px-6 py-3 text-white border border-white/10 rounded-lg font-medium hover:bg-white/5 transition-all flex items-center gap-2"
+              >
+                <Mail size={16} /> Contact Sales
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Right: Contact Form */}
+          <motion.div
+            id="contact-form"
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-8 backdrop-blur-sm"
+          >
+            <h3 className="text-xl font-bold text-white mb-6">Request a Demo</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  required
+                  className="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                />
+              </div>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Work Email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
+                  className="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Company"
+                  value={formData.company}
+                  onChange={(e) => setFormData({...formData, company: e.target.value})}
+                  className="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                />
+              </div>
+              <div>
+                <textarea
+                  placeholder="Tell us about your use case..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  rows={4}
+                  className="w-full px-4 py-3 bg-black/50 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors resize-none"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-6 py-3 bg-emerald-500 text-white rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <>Sending...</>
+                ) : (
+                  <>
+                    <Send size={16} /> Submit Request
+                  </>
+                )}
+              </button>
+            </form>
+          </motion.div>
         </div>
-        <span className="font-bold text-white tracking-tight">SYNAPIRON</span>
       </div>
-      <div className="text-slate-600 flex gap-6 uppercase tracking-wider text-xs">
-        <span>© 2026 Synapiron Ltd</span>
-        <span>Hong Kong · Shenzhen · Zurich</span>
+    </section>
+  );
+};
+
+// --- Use Cases Section ---
+const UseCases = () => {
+  const cases = [
+    {
+      title: "Financial Cross-Border Data Transfer",
+      subtitle: "Banking & Financial Services",
+      image: "/img/usecases/bank.jpeg", // Placeholder - replace with actual image
+      desc: "Enabling compliant cross-border transaction data routing for multinational banks and financial institutions. Supports encrypted transmission of sensitive financial data including real-time transaction data, customer information, and compliance reports. Ensures continuous adherence to GDPR, PDPO, and other data protection regulations while meeting audit requirements from financial regulatory bodies across jurisdictions.",
+      details: [
+        "Real-time cross-border transaction data sync with <50ms latency",
+        "Compliant with SWIFT, PCI-DSS, and financial industry standards",
+        "Multi-jurisdictional compliance routing strategies",
+        "Complete audit logs and tamper-proof transmission records"
+      ],
+      color: "emerald"
+    },
+    {
+      title: "Healthcare Data Corridors",
+      subtitle: "Medical Research & Hospitals",
+      image: "/img/usecases/medicine.jpeg", // Placeholder - replace with actual image
+      desc: "Dedicated data channels connecting global medical research institutions, hospitals, and pharmaceutical companies. Supports HIPAA-compliant transmission of anonymized patient data, clinical trial data, and medical imaging. Enables cross-border medical research collaboration while strictly protecting patient privacy and ensuring healthcare data compliance with medical data protection regulations worldwide.",
+      details: [
+        "HIPAA and GDPR-compliant healthcare data transmission",
+        "Supports large file transfers: DICOM medical imaging, electronic health records",
+        "Patient data anonymization and de-identification processing",
+        "Real-time multi-center clinical trial data synchronization"
+      ],
+      color: "cyan"
+    },
+    {
+      title: "Government Data Networks",
+      subtitle: "Public Sector & Agencies",
+      image: "/img/usecases/gov.jpeg", // Placeholder - replace with actual image
+      desc: "Secure and controllable inter-departmental and cross-regional data exchange networks for government agencies and public institutions. Supports transmission of sensitive government data including population data, tax information, and public safety data. Ensures data sovereignty and national security with fine-grained access controls and data flow auditing, meeting government data classification and tiered management requirements.",
+      details: [
+        "Compliant with national data security and cybersecurity laws",
+        "Multi-level security domain data exchange support",
+        "Fine-grained access control and data flow auditing",
+        "Data masking and tiered transmission strategies"
+      ],
+      color: "blue"
+    },
+    {
+      title: "Multi-Region Enterprise Data Sync",
+      subtitle: "Global Corporations",
+      image: "/img/usecases/lake.jpeg", // Placeholder - replace with actual image
+      desc: "Data synchronization and backup channels between global data centers for multinational enterprises. Supports cross-regional transmission of critical business data including ERP data, customer relationship data, and supply chain data. Ensures data consistency and business continuity. Intelligent routing optimization selects optimal transmission paths while maintaining compliance, reducing latency and costs.",
+      details: [
+        "Real-time global data center synchronization",
+        "Enterprise system data migration: SAP, Oracle, and more",
+        "Intelligent routing optimization reduces transmission costs by 30%+",
+        "Data sovereignty compliance with data localization support"
+      ],
+      color: "purple"
+    }
+  ];
+
+  return (
+    <section id="usecases" className="py-24 bg-[#020202] border-t border-white/5 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <SectionHeader 
+          badge="Real-World Applications"
+          title="Built for Critical Data Flows"
+          desc="Verifiable, compliant, and sovereign data corridor infrastructure for critical data flow scenarios."
+        />
+
+        <div className="grid md:grid-cols-2 gap-8 mt-16">
+          {cases.map((useCase, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.15 }}
+              className="group bg-[#0A0A0A] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
+            >
+              {/* Image Placeholder */}
+              <div className="relative h-48 bg-gradient-to-br from-slate-900 to-black border-b border-white/10 overflow-hidden">
+                <img 
+                  src={useCase.image} 
+                  alt={useCase.title}
+                  className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity"
+                  onError={(e) => {
+                    // Fallback to gradient if image not found
+                    e.target.style.display = 'none';
+                  }}
+                />
+                {useCase.color === 'emerald' && <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent"></div>}
+                {useCase.color === 'cyan' && <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-transparent"></div>}
+                {useCase.color === 'blue' && <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent"></div>}
+                {useCase.color === 'purple' && <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent"></div>}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {useCase.color === 'emerald' && <div className="text-4xl font-bold text-emerald-400/20">{useCase.title.charAt(0)}</div>}
+                  {useCase.color === 'cyan' && <div className="text-4xl font-bold text-cyan-400/20">{useCase.title.charAt(0)}</div>}
+                  {useCase.color === 'blue' && <div className="text-4xl font-bold text-blue-400/20">{useCase.title.charAt(0)}</div>}
+                  {useCase.color === 'purple' && <div className="text-4xl font-bold text-purple-400/20">{useCase.title.charAt(0)}</div>}
+                </div>
+                {/* Placeholder indicator */}
+                <div className="absolute top-4 right-4 px-2 py-1 bg-black/50 border border-white/10 rounded text-[10px] font-mono text-slate-400">
+                  IMAGE PLACEHOLDER
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="mb-3">
+                  <h3 className="text-xl font-bold text-white mb-1">{useCase.title}</h3>
+                  <p className="text-xs text-slate-500 font-mono uppercase tracking-wider">{useCase.subtitle}</p>
+                </div>
+                
+                <p className="text-sm text-slate-300 leading-relaxed mb-4">
+                  {useCase.desc}
+                </p>
+
+                <div className="space-y-2">
+                  {useCase.details.map((detail, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-400">
+                      {useCase.color === 'emerald' && <CheckCircle size={14} className="text-emerald-400 mt-0.5 flex-shrink-0" />}
+                      {useCase.color === 'cyan' && <CheckCircle size={14} className="text-cyan-400 mt-0.5 flex-shrink-0" />}
+                      {useCase.color === 'blue' && <CheckCircle size={14} className="text-blue-400 mt-0.5 flex-shrink-0" />}
+                      {useCase.color === 'purple' && <CheckCircle size={14} className="text-purple-400 mt-0.5 flex-shrink-0" />}
+                      <span>{detail}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Footer = () => (
+  <footer className="py-16 border-t border-white/10 bg-[#050505] text-sm font-mono relative z-10">
+    <div className="max-w-7xl mx-auto px-6">
+      <div className="grid md:grid-cols-4 gap-8 mb-12">
+        {/* Brand */}
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-6 h-6 bg-white text-black rounded flex items-center justify-center">
+              <div className="w-2.5 h-2.5 bg-black rotate-45"></div>
+            </div>
+            <span className="font-bold text-white tracking-tight text-lg">SYNAPIRON</span>
+          </div>
+          <p className="text-slate-500 text-xs leading-relaxed mb-4">
+            Building verifiable infrastructure for cross-border data circulation.
+          </p>
+          <div className="flex gap-3">
+            <a href="https://linkedin.com/company/synapiron" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-colors">
+              <Linkedin size={14} />
+            </a>
+            <a href="https://twitter.com/synapiron" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-colors">
+              <Twitter size={14} />
+            </a>
+            <a href="https://github.com/synapiron" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-white/20 transition-colors">
+              <Github size={14} />
+            </a>
+          </div>
+        </div>
+
+        {/* Product */}
+        <div>
+          <h4 className="text-white font-bold mb-4 text-xs uppercase tracking-wider">Product</h4>
+          <ul className="space-y-2 text-slate-500 text-xs">
+            <li><a href="#network" className="hover:text-white transition-colors">Sovereign Interconnect</a></li>
+            <li><a href="#policy" className="hover:text-white transition-colors">Policy Engine</a></li>
+            <li><a href="#protocol" className="hover:text-white transition-colors">DCT Protocol</a></li>
+            <li><a href="#smart" className="hover:text-white transition-colors">AI Optimization</a></li>
+            <li><a href="#usecases" className="hover:text-white transition-colors">Use Cases</a></li>
+          </ul>
+        </div>
+
+        {/* Resources */}
+        <div>
+          <h4 className="text-white font-bold mb-4 text-xs uppercase tracking-wider">Resources</h4>
+          <ul className="space-y-2 text-slate-500 text-xs">
+            <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Whitepaper</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Case Studies</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">API Reference</a></li>
+          </ul>
+        </div>
+
+        {/* Company */}
+        <div>
+          <h4 className="text-white font-bold mb-4 text-xs uppercase tracking-wider">Company</h4>
+          <ul className="space-y-2 text-slate-500 text-xs">
+            <li><a href="#team" className="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#contact-form" className="hover:text-white transition-colors">Contact</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="text-slate-600 text-xs uppercase tracking-wider">
+          <span>© 2026 Synapiron Ltd</span>
+        </div>
+        <div className="flex items-center gap-2 text-slate-600 text-xs">
+          <MapPin size={12} />
+          <span>Hong Kong · Shenzhen · Zurich</span>
+        </div>
+        <div className="flex items-center gap-2 text-slate-600 text-xs">
+          <Mail size={12} />
+          <a href="mailto:dongdongdoge@gmail.com" className="hover:text-white transition-colors">dongdongdoge@gmail.com</a>
+        </div>
       </div>
     </div>
   </footer>
@@ -1434,7 +1784,9 @@ const App = () => {
       <ProtocolSuite />
       <AiTrafficEngineering />
       <TeamDNA />
+      <UseCases />
       <Partners />
+      <FinalCTA />
       <Footer />
     </div>
   );
