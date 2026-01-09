@@ -4,7 +4,7 @@ import {
   Network, Menu, X, FileJson, 
   FileCheck, Building2, Users, Radio, Activity, Key, Terminal, Code, Cpu,
   Hash, ScanLine, FileKey, Zap, AlertTriangle, Ban, Fingerprint, Map, Navigation, Filter, FileText, Brain, Sparkles, Gavel, Route, Radar, GraduationCap, BookOpen, Lightbulb, Bot, TrendingUp,
-  Mail, Phone, MapPin, Linkedin, Twitter, Github, Send, Calendar, MessageSquare
+  Mail, Phone, MapPin, Linkedin, Twitter, Github, Send, Calendar, MessageSquare, Layers
 } from 'lucide-react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
@@ -68,31 +68,46 @@ const GlobalStyles = () => (
 );
 
 // --- 2. Micro Components ---
-const SectionHeader = ({ badge, title, desc, color = "emerald" }) => (
-  <div className="mb-10 relative z-10">
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8 }}
-      className="flex flex-col gap-3 max-w-3xl"
-    >
-      <div className="flex items-center gap-3">
-        <span className="relative flex h-2 w-2">
-          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-${color}-400 opacity-75`}></span>
-          <span className={`relative inline-flex rounded-full h-2 w-2 bg-${color}-500`}></span>
-        </span>
-        <span className={`text-${color}-500 font-mono text-xs uppercase tracking-[0.2em]`}>{badge}</span>
-      </div>
-      <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-[1.1]">
-        {title}
-      </h2>
-      <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl border-l-2 border-white/5 pl-4">
-        {desc}
-      </p>
-    </motion.div>
-  </div>
-);
+const SectionHeader = ({ badge, title, desc, color = "emerald" }) => {
+  const getColorClass = (type) => {
+    if (color === "emerald") {
+      return type === "text" ? "text-emerald-500" : type === "dot" ? "bg-emerald-500" : "bg-emerald-400";
+    } else if (color === "cyan") {
+      return type === "text" ? "text-cyan-500" : type === "dot" ? "bg-cyan-500" : "bg-cyan-400";
+    } else if (color === "blue") {
+      return type === "text" ? "text-blue-500" : type === "dot" ? "bg-blue-500" : "bg-blue-400";
+    } else if (color === "purple") {
+      return type === "text" ? "text-purple-500" : type === "dot" ? "bg-purple-500" : "bg-purple-400";
+    }
+    return type === "text" ? "text-emerald-500" : type === "dot" ? "bg-emerald-500" : "bg-emerald-400";
+  };
+
+  return (
+    <div className="mb-10 relative z-10">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="flex flex-col gap-3 max-w-3xl"
+      >
+        <div className="flex items-center gap-3">
+          <span className="relative flex h-2 w-2">
+            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${getColorClass("ping")} opacity-75`}></span>
+            <span className={`relative inline-flex rounded-full h-2 w-2 ${getColorClass("dot")}`}></span>
+          </span>
+          <span className={`${getColorClass("text")} font-mono text-xs uppercase tracking-[0.2em]`}>{badge}</span>
+        </div>
+        <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight leading-[1.1]">
+          {title}
+        </h2>
+        <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-2xl border-l-2 border-white/5 pl-4">
+          {desc}
+        </p>
+      </motion.div>
+    </div>
+  );
+};
 
 // --- 3. Main Sections ---
 
@@ -147,12 +162,12 @@ const Hero = () => {
             <Activity size={12} /> L4.5 ASSURANCE LAYER
           </div>
           <h1 className="text-5xl md:text-8xl font-bold text-white mb-8 leading-[0.95] tracking-tighter">
-            TRUST <br/>
+            TRUST & <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-glow">COMPLIANT</span> <br/>
             IN <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-glow">TRANSIT</span>
           </h1>
           <p className="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed">
             From static encryption to <strong>dynamic sovereignty</strong>. <br/>
-            Synapiron builds the verifiable infrastructure for cross-border data circulation.
+            Synapiron builds the verifiable, <strong className="text-emerald-400">compliant</strong> infrastructure for cross-border data circulation.
           </p>
           <div className="flex gap-4">
             <button className="px-8 py-4 bg-white text-black rounded-lg font-bold flex items-center gap-2 hover:bg-slate-200 transition-all">Start Building <ArrowRight size={16} /></button>
@@ -182,6 +197,135 @@ const Hero = () => {
           </div>
         </motion.div>
       </div>
+    </section>
+  );
+};
+
+// --- SECTION: LAYER 4.5 EXPLAINER ---
+const LayerExplainer = () => {
+  return (
+    <section id="layer-4-5" className="py-24 bg-[#020202] border-t border-white/5 relative">
+       <div className="max-w-7xl mx-auto px-6">
+         <SectionHeader 
+            badge="Architecture Concept" 
+            title="The Missing Layer: What is L4.5?" 
+            desc="Traditional Layer 4 (TLS) secures the data payload but leaves the path blind. Synapiron introduces Layer 4.5 to secure the corridor itself."
+            color="emerald"
+         />
+         
+         <div className="grid md:grid-cols-2 gap-16 items-center mt-12">
+            {/* Left: The Stack */}
+            <div className="relative p-8">
+               <div className="absolute inset-0 bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none"></div>
+               <div className="flex flex-col gap-4 font-mono text-sm relative z-10">
+                  <div className="p-4 rounded border border-white/10 bg-[#0A0A0A] text-slate-500 flex justify-between">
+                     <span>Layer 5: Application</span>
+                     <span className="text-[10px] bg-white/10 px-2 rounded">HTTP / App</span>
+                  </div>
+                  
+                  {/* The Highlighted Layer */}
+                  <motion.div 
+                     className="p-6 rounded-lg border border-emerald-500/50 bg-emerald-900/10 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.1)] relative"
+                     initial={{ scale: 0.9, opacity: 0 }}
+                     whileInView={{ scale: 1, opacity: 1 }}
+                     viewport={{ once: true }}
+                     transition={{ duration: 0.6 }}
+                  >
+                     <div className="flex justify-between items-center mb-2">
+                        <span className="font-bold flex items-center gap-2"><Layers size={16}/> Layer 4.5: DCT</span>
+                        <span className="text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded border border-emerald-500/30">ASSURANCE</span>
+                     </div>
+                     <p className="text-xs text-emerald-500/70 leading-relaxed">
+                        Responsible for Path Control, Policy Enforcement, and Transfer Evidence. The bridge between raw connectivity and business logic.
+                     </p>
+                  </motion.div>
+
+                  <div className="p-4 rounded border border-white/10 bg-[#0A0A0A] text-slate-500 flex justify-between">
+                     <span>Layer 4: Transport</span>
+                     <span className="text-[10px] bg-white/10 px-2 rounded">TLS / QUIC</span>
+                  </div>
+                  <div className="p-4 rounded border border-white/10 bg-[#0A0A0A] text-slate-500 flex justify-between">
+                     <span>Layer 3: Network</span>
+                     <span className="text-[10px] bg-white/10 px-2 rounded">IP / SCION</span>
+                  </div>
+               </div>
+            </div>
+
+            {/* Right: The Metaphor */}
+            <div className="space-y-6">
+               <h3 className="text-2xl font-bold text-white">TLS is the Armored Car.<br/>Layer 4.5 (DCT) is the Validated Route.</h3>
+               <p className="text-slate-400 leading-relaxed">
+                  Encryption (Layer 4) ensures no one can see inside the van. But who ensures the driver doesn't take a detour through a hostile jurisdiction?
+               </p>
+               <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                     <div className="mt-1 p-1 bg-emerald-500/10 rounded border border-emerald-500/20"><CheckCircle size={14} className="text-emerald-500"/></div>
+                     <div>
+                        <strong className="text-white block text-sm">Constraint Enforcement</strong>
+                        <span className="text-slate-500 text-xs">"Data must NEVER leave the EU." DCT enforces this at the packet level.</span>
+                     </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                     <div className="mt-1 p-1 bg-emerald-500/10 rounded border border-emerald-500/20"><CheckCircle size={14} className="text-emerald-500"/></div>
+                     <div>
+                        <strong className="text-white block text-sm">Hop-by-Hop Visibility</strong>
+                        <span className="text-slate-500 text-xs">Every router signs the transfer. No more black-box transmission.</span>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+       </div>
+    </section>
+  );
+};
+
+// --- SECTION: COMPLIANCE IMPERATIVE ---
+const ComplianceImperative = () => {
+  return (
+    <section id="compliance" className="py-24 bg-[#020202] border-t border-white/5 relative">
+       <div className="max-w-7xl mx-auto px-6">
+         <SectionHeader 
+            badge="The Compliance Singularity" 
+            title="From 'Trust Me' to 'Here is the Proof'" 
+            desc="In a world of GDPR, PDPO, and data sovereignty laws, traditional 'best-effort' routing is a liability. DCT turns compliance into a deterministic guarantee."
+            color="emerald"
+         />
+         
+         <div className="grid md:grid-cols-2 gap-8 mt-12">
+            {/* The Old Way: Black Box */}
+            <div className="group p-8 rounded-2xl bg-[#0A0A0A] border border-white/5 hover:border-red-500/20 transition-all duration-500 relative overflow-hidden">
+               <div className="absolute top-4 right-4 text-slate-600 group-hover:text-red-500 transition-colors"><AlertTriangle size={24}/></div>
+               <h4 className="text-xl font-bold text-slate-300 mb-4 group-hover:text-red-400 transition-colors">Legacy: The Black Box</h4>
+               <p className="text-slate-500 text-sm mb-6">
+                  You hand data to an ISP. It disappears into a cloud of 30 hops. Did it pass through a sanctioned country? Did a competitor mirror it? 
+                  <br/><br/>
+                  <span className="italic">Auditor: "Can you prove data residency?"</span><br/>
+                  <span className="italic">You: "Um... we have a contract?"</span>
+               </p>
+               <div className="w-full h-1 bg-slate-800 rounded overflow-hidden">
+                  <div className="w-1/3 h-full bg-red-500/50"></div>
+               </div>
+               <div className="mt-2 text-[10px] text-red-500 font-mono">RISK: HIGH • VISIBILITY: ZERO</div>
+            </div>
+
+            {/* The New Way: Glass Box */}
+            <div className="group p-8 rounded-2xl bg-emerald-900/5 border border-emerald-500/20 relative overflow-hidden">
+               <div className="absolute top-4 right-4 text-emerald-500"><FileCheck size={24}/></div>
+               <h4 className="text-xl font-bold text-white mb-4">Layer 4.5 (DCT): The Glass Box</h4>
+               <p className="text-slate-400 text-sm mb-6">
+                  Every packet carries a passport (TAC). Every border crossing gets a visa stamp (Signature). At the end, you get a cryptographic Evidence Package.
+                  <br/><br/>
+                  <span className="italic">Auditor: "Can you prove data residency?"</span><br/>
+                  <span className="italic text-emerald-400">You: "Here is the signed chain of custody."</span>
+               </p>
+               <div className="w-full h-1 bg-slate-800 rounded overflow-hidden">
+                  <div className="w-full h-full bg-emerald-500"></div>
+               </div>
+               <div className="mt-2 text-[10px] text-emerald-500 font-mono">RISK: ZERO • VISIBILITY: 100%</div>
+            </div>
+         </div>
+       </div>
     </section>
   );
 };
@@ -1125,7 +1269,8 @@ const ProtocolSuite = () => {
           title="Data Corridor Transport (DCT)"
           desc="Three specialized layers working in unison. From issuing credentials (CMP) to transporting securely (CTP) and verifying evidence (TVP)."
         />
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
+
+        <div className="grid md:grid-cols-3 gap-6 items-stretch mt-12">
           <ProtocolCard title="Certificate Management" code="DCT-CMP" icon={<FileCheck size={18}/>} accentColor="emerald">
             <CmpViz />
           </ProtocolCard>
@@ -1652,10 +1797,6 @@ const UseCases = () => {
                   {useCase.color === 'blue' && <div className="text-4xl font-bold text-blue-400/20">{useCase.title.charAt(0)}</div>}
                   {useCase.color === 'purple' && <div className="text-4xl font-bold text-purple-400/20">{useCase.title.charAt(0)}</div>}
                 </div>
-                {/* Placeholder indicator */}
-                <div className="absolute top-4 right-4 px-2 py-1 bg-black/50 border border-white/10 rounded text-[10px] font-mono text-slate-400">
-                  IMAGE PLACEHOLDER
-                </div>
               </div>
 
               {/* Content */}
@@ -1779,9 +1920,11 @@ const App = () => {
       <div className="bg-noise"></div>
       <Navbar />
       <Hero />
+      <LayerExplainer />
+      <ComplianceImperative />
+      <ProtocolSuite />
       <GlobalNetwork />
       <PolicyRouting />
-      <ProtocolSuite />
       <AiTrafficEngineering />
       <TeamDNA />
       <UseCases />
