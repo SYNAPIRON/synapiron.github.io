@@ -333,7 +333,7 @@ const PolicyRouting = () => {
   const path2 = "M 50 150 Q 150 220 300 220 T 550 150";
 
   return (
-    <section id="policy" className="py-16 bg-[#020202] border-t border-white/5 overflow-hidden">
+    <section id="policy" className="pt-16 pb-24 bg-[#020202] border-t border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeader 
           badge="Policy & Compliance Engine"
