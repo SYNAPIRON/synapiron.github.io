@@ -131,10 +131,9 @@ const Navbar = () => {
           <span className="text-white font-bold text-lg tracking-tight">SYNAPIRON</span>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-          {['Network', 'Policy', 'Protocol', 'Smart', 'Use Cases', 'Team'].map((item) => (
-            <a key={item} href={`#${item.toLowerCase().replace(/\s+/g, '')}`} className="hover:text-white transition-colors">{item}</a>
+          {['Protocol', 'Network', 'Policy', 'Smart', 'Use Cases', 'Team', 'Contact'].map((item) => (
+            <a key={item} href={item === 'Contact' ? '#contact-form' : `#${item.toLowerCase().replace(/\s+/g, '')}`} className="hover:text-white transition-colors">{item === 'Contact' ? 'Contact Us' : item}</a>
           ))}
-          <a href="#contact-form" className="hover:text-white transition-colors">Contact Us</a>
         </div>
         <div className="flex items-center gap-4">
           <button className="hidden md:block text-xs font-mono text-emerald-500 border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5 rounded hover:bg-emerald-500/10 transition-colors">DOCS_v0.2</button>
@@ -162,7 +161,7 @@ const Hero = () => {
             <Activity size={12} /> L4.5 ASSURANCE LAYER
           </div>
           <h1 className="text-5xl md:text-8xl font-bold text-white mb-8 leading-[0.95] tracking-tighter">
-            TRUST & <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-glow">COMPLIANT</span> <br/>
+            TRUST & <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-glow">COMPLIANCE</span> <br/>
             IN <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 text-glow">TRANSIT</span>
           </h1>
           <p className="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed">
@@ -176,24 +175,371 @@ const Hero = () => {
         </motion.div>
         <motion.div style={{ y: y1 }} className="relative hidden lg:flex justify-center">
           <div className="relative w-[500px] h-[500px]">
-            {[100, 80, 60].map((size, i) => (
+            {/* 外层旋转轨道 */}
+            {[100, 85, 70, 55].map((size, i) => (
               <motion.div
                 key={i}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/5"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-500/10"
                 style={{ width: `${size}%`, height: `${size}%` }}
-                animate={{ rotate: i % 2 === 0 ? 360 : -360, scale: [1, 1.02, 1] }}
-                transition={{ rotate: { duration: 30 + i * 10, ease: "linear", repeat: Infinity }, scale: { duration: 4, repeat: Infinity, ease: "easeInOut" } }}
+                animate={{ 
+                  rotate: i % 2 === 0 ? 360 : -360,
+                  scale: [1, 1.05, 1],
+                  opacity: [0.3, 0.6, 0.3]
+                }}
+                transition={{ 
+                  rotate: { duration: 20 + i * 8, ease: "linear", repeat: Infinity }, 
+                  scale: { duration: 3 + i, repeat: Infinity, ease: "easeInOut" },
+                  opacity: { duration: 2 + i * 0.5, repeat: Infinity, ease: "easeInOut" }
+                }}
               >
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_20px_#10b981]"></div>
+                {/* 轨道上的节点 */}
+                {[0, 120, 240].map((angle, j) => (
+                  <motion.div
+                    key={j}
+                    className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    style={{
+                      transformOrigin: `50% ${size * 0.5}%`,
+                      rotate: angle
+                    }}
+                    animate={{ rotate: angle + (i % 2 === 0 ? 360 : -360) }}
+                    transition={{ duration: 20 + i * 8, ease: "linear", repeat: Infinity }}
+                  >
+                    <motion.div
+                      className="w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_20px_#10b981] relative"
+                      animate={{ 
+                        scale: [1, 1.5, 1],
+                        boxShadow: [
+                          "0 0 20px #10b981",
+                          "0 0 40px #10b981, 0 0 60px #10b981",
+                          "0 0 20px #10b981"
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, delay: j * 0.3 }}
+                    >
+                      {/* 粒子尾迹 */}
+                      <motion.div
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 border border-emerald-500/30 rounded-full"
+                        animate={{ scale: [0, 2, 0], opacity: [0.5, 0, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: j * 0.3 }}
+                      />
+                    </motion.div>
               </motion.div>
             ))}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[#0A0A0A] border border-white/20 rounded-2xl flex items-center justify-center shadow-[0_0_100px_rgba(16,185,129,0.2)] z-20">
-               <motion.div animate={{ rotate: 90 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="w-16 h-16 bg-white rotate-45 opacity-90"></motion.div>
-            </div>
-            <motion.div className="absolute top-[20%] right-0 glass-panel p-3 rounded font-mono text-[10px] text-emerald-400 border-l-2 border-emerald-500 z-30" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>
-              <div>&gt; SESSION_ID: 0x8F2A...</div>
-              <div className="text-slate-500">Path Verified: 14ms</div>
+              </motion.div>
+            ))}
+            
+            {/* 中心核心节点 - 3D 效果 */}
+            <motion.div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 z-20"
+              style={{ perspective: 1000 }}
+            >
+              <motion.div
+                className="w-full h-full bg-[#0A0A0A] border-2 border-emerald-500/50 rounded-2xl flex items-center justify-center shadow-[0_0_150px_rgba(16,185,129,0.4)] relative overflow-hidden"
+                animate={{ 
+                  rotateY: [0, 360],
+                  rotateX: [0, 15, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ 
+                  rotateY: { duration: 20, ease: "linear", repeat: Infinity },
+                  rotateX: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                  scale: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                }}
+              >
+                {/* 内部旋转方块 */}
+                <motion.div 
+                  className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-cyan-400 opacity-90"
+                  style={{ transformStyle: "preserve-3d" }}
+                  animate={{ 
+                    rotate: [0, 360],
+                    rotateX: [0, 180, 360],
+                    rotateY: [0, 180, 360]
+                  }}
+                  transition={{ 
+                    rotate: { duration: 8, ease: "linear", repeat: Infinity },
+                    rotateX: { duration: 6, ease: "linear", repeat: Infinity },
+                    rotateY: { duration: 10, ease: "linear", repeat: Infinity }
+                  }}
+                />
+                
+                {/* 脉冲光效 */}
+                <motion.div
+                  className="absolute inset-0 bg-emerald-500/20 rounded-2xl"
+                  animate={{ 
+                    scale: [1, 1.5, 1],
+                    opacity: [0.3, 0, 0.3]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </motion.div>
             </motion.div>
+
+            {/* 连接线动画 */}
+            <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full z-10 pointer-events-none">
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#10b981" stopOpacity="0" />
+                  <stop offset="50%" stopColor="#10b981" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+                <motion.g
+                  key={`line-${i}`}
+                  style={{ transform: `rotate(${angle}deg)` }}
+                  transformOrigin="50% 50%"
+                >
+                  <motion.line
+                    x1="50%"
+                    y1="50%"
+                    x2="75%"
+                    y2="50%"
+                    stroke="url(#lineGradient)"
+                    strokeWidth="1"
+                    strokeDasharray="5,5"
+                    opacity={0.3}
+                    initial={{ pathLength: 0 }}
+                    animate={{ 
+                      pathLength: [0, 1, 0],
+                      opacity: [0.3, 0.6, 0.3]
+                    }}
+                    transition={{ 
+                      duration: 3,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                      ease: "easeInOut"
+                    }}
+                  />
+                </motion.g>
+              ))}
+            </svg>
+
+            {/* 浮动数据包粒子 */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={`particle-${i}`}
+                className="absolute w-2 h-2 bg-emerald-400 rounded-full shadow-[0_0_10px_#10b981] z-10"
+                initial={{
+                  x: "50%",
+                  y: "50%",
+                  scale: 0
+                }}
+                animate={{
+                  x: [
+                    "50%",
+                    `${50 + (Math.cos(i * 45 * Math.PI / 180) * 30)}%`,
+                    `${50 + (Math.cos((i * 45 + 180) * Math.PI / 180) * 30)}%`,
+                    "50%"
+                  ],
+                  y: [
+                    "50%",
+                    `${50 + (Math.sin(i * 45 * Math.PI / 180) * 30)}%`,
+                    `${50 + (Math.sin((i * 45 + 180) * Math.PI / 180) * 30)}%`,
+                    "50%"
+                  ],
+                  scale: [0, 1, 1, 0],
+                  opacity: [0, 1, 1, 0]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  delay: i * 0.5,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+
+            {/* 信息面板 - 多个 */}
+            <motion.div 
+              className="absolute top-[15%] right-0 glass-panel p-3 rounded-lg font-mono text-[10px] text-emerald-400 border-l-2 border-emerald-500 z-30 backdrop-blur-md bg-black/40"
+              initial={{ opacity: 0, x: 20, y: -10 }}
+              animate={{ 
+                opacity: 1, 
+                x: 0,
+                y: [0, -5, 0]
+              }}
+              transition={{ 
+                opacity: { delay: 0.5 },
+                y: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+              }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+              <div>&gt; SESSION_ID: 0x8F2A...</div>
+              </div>
+              <div className="text-slate-400">Path Verified: 14ms</div>
+              <div className="text-cyan-400 mt-1">✓ Compliance: PASS</div>
+            </motion.div>
+
+            <motion.div 
+              className="absolute bottom-[20%] left-0 glass-panel p-3 rounded-lg font-mono text-[10px] text-cyan-400 border-l-2 border-cyan-500 z-30 backdrop-blur-md bg-black/40"
+              initial={{ opacity: 0, x: -20, y: 10 }}
+              animate={{ 
+                opacity: 1, 
+                x: 0,
+                y: [0, 5, 0]
+              }}
+              transition={{ 
+                opacity: { delay: 0.8 },
+                y: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }
+              }}
+            >
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+                <div>&gt; DATA_FLOW: ACTIVE</div>
+          </div>
+              <div className="text-slate-400">Encryption: AES-256</div>
+              <div className="text-emerald-400 mt-1">✓ Policy: ENFORCED</div>
+            </motion.div>
+
+            {/* AI 神经网络节点 - 单个低调辅助元素 */}
+            <motion.div
+              className="absolute z-10"
+              style={{
+                left: "75%",
+                top: "25%",
+                transform: 'translate(-50%, -50%)'
+              }}
+              animate={{
+                scale: [1, 1.08, 1],
+                rotate: [0, 360],
+                y: [0, -3, 0]
+              }}
+              transition={{
+                scale: { duration: 5, repeat: Infinity },
+                rotate: { duration: 30, repeat: Infinity, ease: "linear" },
+                y: { duration: 6, repeat: Infinity }
+              }}
+            >
+              <div className="relative">
+                <motion.div
+                  className="w-7 h-7 bg-gradient-to-br from-purple-500/15 to-purple-600/15 rounded-full flex items-center justify-center border border-purple-400/10 shadow-[0_0_8px_rgba(168,85,247,0.1)]"
+                  animate={{
+                    boxShadow: [
+                      "0 0 8px rgba(168,85,247,0.1)",
+                      "0 0 12px rgba(168,85,247,0.15)",
+                      "0 0 8px rgba(168,85,247,0.1)"
+                    ]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                >
+                  <Brain size={12} className="text-purple-300/40" />
+                </motion.div>
+                {/* AI节点脉冲 - 非常低调 */}
+                <motion.div
+                  className="absolute inset-0 bg-purple-400/5 rounded-full"
+                  animate={{
+                    scale: [1, 2, 1],
+                    opacity: [0.15, 0, 0.15]
+                  }}
+                  transition={{ duration: 5, repeat: Infinity }}
+                />
+              </div>
+            </motion.div>
+
+            {/* AI 智能连接线 - 低调辅助连接 */}
+            <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full z-0 pointer-events-none">
+              <defs>
+                <linearGradient id="aiGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#a855f7" stopOpacity="0" />
+                  <stop offset="50%" stopColor="#a855f7" stopOpacity="0.15" />
+                  <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {/* 从AI节点到中心的连接 - 单条低调连接 */}
+              <motion.line
+                x1="75%"
+                y1="25%"
+                x2="50%"
+                y2="50%"
+                stroke="url(#aiGradient)"
+                strokeWidth="0.5"
+                strokeDasharray="4,8"
+                opacity={0.12}
+                initial={{ pathLength: 0 }}
+                animate={{
+                  pathLength: [0, 1, 0],
+                  opacity: [0.12, 0.2, 0.12]
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </svg>
+
+            {/* AI 分析粒子流 - 从单个节点到中心 */}
+            {[...Array(2)].map((_, i) => (
+              <motion.div
+                key={`ai-particle-${i}`}
+                className="absolute w-1 h-1 bg-purple-400/25 rounded-full shadow-[0_0_3px_#a855f7] z-10"
+                initial={{
+                  x: "75%",
+                  y: "25%",
+                  scale: 0
+                }}
+                animate={{
+                  x: ["75%", "50%", "75%"],
+                  y: ["25%", "50%", "25%"],
+                  scale: [0, 1, 0],
+                  opacity: [0, 0.4, 0]
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  delay: i * 2,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+
+            {/* AI 决策面板 - 更小更低调 */}
+            <motion.div 
+              className="absolute top-[65%] right-[5%] glass-panel p-2 rounded font-mono text-[9px] text-purple-400/70 border-l border-purple-500/30 z-20 backdrop-blur-md bg-black/30"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1,
+                y: [0, -3, 0]
+              }}
+              transition={{ 
+                opacity: { delay: 1.5 },
+                scale: { delay: 1.5 },
+                y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }
+              }}
+            >
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <Bot size={10} className="text-purple-400/60" />
+                <div className="text-purple-400/70">&gt; AI Assist</div>
+              </div>
+              <div className="text-slate-500 text-[8px]">Smart Routing</div>
+            </motion.div>
+
+            {/* AI 光效背景 - 更暗更低调 */}
+            <motion.div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl z-0"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.15, 0.1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                scale: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+                opacity: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                rotate: { duration: 30, repeat: Infinity, ease: "linear" }
+              }}
+            />
+
+            {/* 背景光效 */}
+            <motion.div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl z-0"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            />
           </div>
         </motion.div>
       </div>
