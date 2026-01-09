@@ -115,7 +115,7 @@ const Navbar = () => {
           <span className="text-white font-bold text-lg tracking-tight">SYNAPIRON</span>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-          {['Network', 'Policy', 'Smart', 'Protocol', 'Team'].map((item) => (
+          {['Network', 'Policy', 'Protocol', 'Smart', 'Team'].map((item) => (
             <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-white transition-colors">{item}</a>
           ))}
         </div>
